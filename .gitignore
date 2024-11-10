@@ -1,0 +1,15 @@
+# created by virtualenv automatically
+
+# Ignorar entornos virtuales
+lib/
+bin/
+Scripts/
+Include/
+
+# Ignorar archivos específicos de Python
+*.pyc
+*.pyo
+.env
+pyvenv.cfg
+
+
