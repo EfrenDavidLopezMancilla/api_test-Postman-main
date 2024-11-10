@@ -1,7 +1,7 @@
 import requests
 
 # URL de la API
-url = "https://api-test-2-vnx1.onrender.com/estudiantes"
+url = "http://127.0.0.1:5000"
 
 try:
     # Hacer la solicitud GET a la API
