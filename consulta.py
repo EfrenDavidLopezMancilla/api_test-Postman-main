@@ -1,7 +1,7 @@
 import requests
 
 # URL de la API
-url = "http://127.0.0.1:5000"
+url = "postgresql://efren:bjzyeuC0VXwWbO5tOug4sgNP32FGCrZC@dpg-cshd11u8ii6s73bcupag-a.oregon-postgres.render.com/bases_16pk"
 
 try:
     # Hacer la solicitud GET a la API
