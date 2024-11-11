@@ -42,6 +42,11 @@ def obtener_estudiantes():
 @app.route('/estudiantes', methods=['POST'])
 def agregar_estudiante():
     data = request.get_json()
+
+    # Validación de datos
+    if not all(key in data for key in ['no_control', 'nombre', 'ap_paterno', 'ap_materno', 'semestre']):
+        return jsonify({'mensaje': 'Faltan datos obligatorios'}), 400
+
     nuevo_estudiante = Estudiante(
         no_control=data['no_control'],
         nombre=data['nombre'],
@@ -74,6 +79,11 @@ def actualizar_estudiante(no_control):
     if estudiante is None:
         return jsonify({'mensaje': 'Estudiante no encontrado'}), 404
     data = request.get_json()
+
+    # Validación de datos
+    if not all(key in data for key in ['nombre', 'ap_paterno', 'ap_materno', 'semestre']):
+        return jsonify({'mensaje': 'Faltan datos obligatorios'}), 400
+
     estudiante.nombre = data['nombre']
     estudiante.ap_paterno = data['ap_paterno']
     estudiante.ap_materno = data['ap_materno']
@@ -104,20 +114,21 @@ def cambiar_estudiante(no_control):
     # Verificar si se envió un campo específico para actualizar
     if 'nombre' in datos:
         estudiante.nombre = datos['nombre']
-    elif 'ap_paterno' in datos:
+    if 'ap_paterno' in datos:
         estudiante.ap_paterno = datos['ap_paterno']
-    elif 'ap_materno' in datos:
+    if 'ap_materno' in datos:
         estudiante.ap_materno = datos['ap_materno']
-    elif 'semestre' in datos:
+    if 'semestre' in datos:
         estudiante.semestre = datos['semestre']
-    else:
-        return jsonify({'mensaje': 'Campo no válido para actualizar'}), 400
+    
+    # Verificar si no se envió ningún campo
+    if not any(field in datos for field in ['nombre', 'ap_paterno', 'ap_materno', 'semestre']):
+        return jsonify({'mensaje': 'No se enviaron campos válidos para actualizar'}), 400
 
     # Guardar los cambios en la base de datos
     db.session.commit()
 
     return jsonify({'mensaje': 'Estudiante actualizado correctamente'})
-
 
 if __name__ == '__main__':
     app.run(debug=True)
